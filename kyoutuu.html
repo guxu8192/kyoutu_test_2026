@@ -298,7 +298,7 @@
             outputHTML += '<p>(07)ループ変数iは2から6まで5回ループするため、(08)～(10)の処理が5回実行される。</p>';
             outputHTML += '<p>(08)配列Kaishiに前任者の終了時間or本人の到着時刻のうち大きい方を代入する。</p>';
             outputHTML += '<p>(09)配列Shuryouに本人の開始時刻＋体験時間を代入する。</p>';
-            outputHTML += '<p>(10)i人目の待ち時間を表示。待ち時間は本人の開始時間 - 前任者の到着時間により計算。</p>';
+            outputHTML += '<p>(10)i人目の待ち時間を表示。待ち時間は本人の開始時間 - 到着時間により計算。</p>';
             outputHTML += '<p><b>シミュレーション結果</b></p>';
             outputHTML += '<p>初期状態: </p>';
             outputHTML += '<pre>Touchaku: ' + JSON.stringify(Touchaku.slice(1)) + '\n'; // nullを除いて表示
