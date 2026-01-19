@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025年度共通テスト情報Ⅰ大問3解説</title>
+    <style>
+        /* CSSカスタムプロパティ（変数）の定義 */
+        :root {
+            --brown: #8B4513;
+            /* 例として茶色を設定 */
+            --light-green: #90EE90;
+            /* 例として薄緑色を設定 */
+            --oswald-font: 'Arial', sans-serif;
+            /* 例としてArialを設定 */
+        }
+
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            font-size: 20px;
+            display: flex;
+            height: 100vh;
+            gap: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .problem-area {
+            flex: 2;
+            /* 問題領域は1の比率 */
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .simulation-area {
+            flex: 1;
+            /* シミュレーション領域は2の比率 (問題領域の2倍の幅) */
+            overflow-y: auto;
+            padding-left: 10px;
+            border-left: 1px solid #ccc;
+        }
+
+
+        table {
+            text-align: center;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+        }
+
+        .answer {
+            color: red;
+            font-weight: bold;
+        }
+
+        h1,
+        h2 {
+            color: var(--brown);
+        }
+
+        /* シミュレーション結果表示用のスタイル */
+        .simulation-output {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        /* 各シミュレーションステップの表示スタイル */
+        .simulation-step {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #eef;
+            /* 親のf9f9f9と異なる色でステップを強調 */
+        }
+
+        .simulation-step h4 {
+            margin-top: 0;
+            color: #444;
+        }
+
+        .simulation-output pre {
+            background-color: #eee;
+            padding: 5px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+
+        .saichou-trace li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="problem-area">
+        <h1>2025年度共通テスト情報Ⅰ大問3解説</h1>
+        <hr>
+        <h2>問１</h2>
+        <p>表1 昨年の来訪者の待ち時間を整理した結果</p>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>到着時刻</th>
+                    <th>開始時刻</th>
+                    <th>終了時刻</th>
+                    <th>待ち時間</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1人目</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>3</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>2人目</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>6</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>3人目</td>
+                    <td>4</td>
+                    <td>6</td>
+                    <td class="answer">ア</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>4人目</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>13</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>5人目</td>
+                    <td>11</td>
+                    <td>13</td>
+                    <td>16</td>
+                    <td class="answer">イ</td>
+                </tr>
+                <tr>
+                    <td>6人目</td>
+                    <td>12</td>
+                    <td>16</td>
+                    <td>19</td>
+                    <td class="answer">ウ</td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" id="aiu_button">解説</button>
+
+        <hr>
+        <h2>問2</h2>
+        <p>(01) `taiken = 3`</p>
+        <p>(02) `Touchaku = [0, 3, 4, 10, 11, 12]`</p>
+        <p>(03) `kyakusu = 要素数(Touchaku)`</p>
+        <p>(04) `Kaishi = [0, 0, 0, 0, 0, 0]`</p>
+        <p>(05) `Shuryou = [0, 0, 0, 0, 0, 0]`</p>
+        <p>(06) `Shuryou[1] = taiken`</p>
+        <p>(07) `i`を2から`kyakusu`まで1つずつ増やしながら繰り返す</p>
+        <p>(08) | `Kaishi[i]` = 最大値(<span class='answer' id="q2-ka">カ</span>,<span class='answer' id="q2-ki">キ</span>)
+        </p>
+        <p>(09) | `Shuryou[i]` = <span class='answer' id="q2-ku">ク</span></p>
+        <p>(10) | 表示する(`i`, "人目の待ち時間：", <span class='answer' id="q2-ke">ケ</span> - <span class='answer'
+                id="q2-ko">コ</span>,
+            "分間")
+        </p>
+        <button type="button" id="kakikeko_q2">解説とシミュレーション実行</button>
+        <hr>
+        <h2>問3</h2>
+        <p>(01) Touchaku = [0,3,4,10,11,12]</p>
+        <p>(02) kyakusu = 要素数(Touchaku)</p>
+        <p>(03) taikenを1から15まで1ずつ増やしながら繰り返す:</p>
+        <p>(04) | Kaishi = [0,0,0,0,0,0]</p>
+        <p>(05) | Shuryou = [0,0,0,0,0,0]</p>
+        <p>(06) | Shuryou[1] = taiken</p>
+        <p>(07) | iを2から`kyakusu`まで1つずつ増やしながら繰り返す:</p>
+        <p>(08) | |`Kaishi[i]` = 最大値(<span class='answer' id="q3-ka">カ</span>,<span class='answer' id="q3-ki">キ</span>)
+        </p>
+        <p>(09) | |`Shuryou[i]` = <span class='answer' id="q3-ku">ク</span></p>
+        <p>(10) | saichou = 0</p>
+        <p>(11) | iを1からkyakusuまで1つずつ増やしながら繰り返す:</p>
+        <p>(12) | | saichou = 最大値(<span class='answer' id="q3-sa">サ</span>,<span class='answer'
+                id="q3-ke">ケ</span>-<span class='answer' id="q3-ko">コ</span>)</p>
+        <p>(13) | もし<span class='answer' id="q3-si">ㇱ</span>ならば:</p>
+        <p>(14) | |表示する("体験時間", taiken, "分間:", "最長待ち時間", saichou, "分間")</p>
+        <button type="button" id="kakikeko_q3">解説とシミュレーション実行</button>
+    </div>
+
+    <div class="simulation-area">
+        <h2>シミュレーション結果</h2>
+        <div id="simulation-output-q1" class="simulation-output" style="display: none;"></div>
+        <div id="simulation-output-q2" class="simulation-output" style="display: none;"></div>
+        <div id="simulation-output-q3" class="simulation-output" style="display: none;"></div>
+    </div>
+
+    <script>
+        // 問1のボタンを取得
+        const aiu_button = document.querySelector('#aiu_button');
+
+        // 問2の解答を埋める要素を取得
+        const q2_ka = document.querySelector('#q2-ka');
+        const q2_ki = document.querySelector('#q2-ki');
+        const q2_ku = document.querySelector('#q2-ku');
+        const q2_ke = document.querySelector('#q2-ke');
+        const q2_ko = document.querySelector('#q2-ko');
+        const kakikeko_q2_button = document.querySelector('#kakikeko_q2');
+
+        // 問3の解答を埋める要素を取得
+        const q3_ka = document.querySelector('#q3-ka');
+        const q3_ki = document.querySelector('#q3-ki');
+        const q3_ku = document.querySelector('#q3-ku');
+        const q3_sa = document.querySelector('#q3-sa');
+        const q3_ke = document.querySelector('#q3-ke');
+        const q3_ko = document.querySelector('#q3-ko');
+        const q3_si = document.querySelector('#q3-si');
+        const kakikeko_q3_button = document.querySelector('#kakikeko_q3');
+
+        // シミュレーション結果表示エリアの要素を全て取得
+        const simulationOutputQ1 = document.querySelector('#simulation-output-q1');
+        const simulationOutputQ2 = document.querySelector('#simulation-output-q2');
+        const simulationOutputQ3 = document.querySelector('#simulation-output-q3');
+        const allSimulationOutputs = [simulationOutputQ1, simulationOutputQ2, simulationOutputQ3];
+
+        /**
+         * 全てのシミュレーション結果表示エリアを非表示にする関数
+         */
+        function hideAllSimulationOutputs() {
+            allSimulationOutputs.forEach(outputDiv => {
+                if (outputDiv) { // nullチェック
+                    outputDiv.style.display = 'none';
+                }
+            });
+        }
+
+        // ページロード時に全てのシミュレーション結果を非表示にする
+        document.addEventListener('DOMContentLoaded', hideAllSimulationOutputs);
+
+        // 「解説」ボタン（問1）がクリックされた時の処理
+        aiu_button.addEventListener('click', () => {
+            hideAllSimulationOutputs(); // 他の結果を非表示にする
+            simulationOutputQ1.style.display = 'block'; // 問1の結果を表示
+
+            let outputHTML = '<h3>問1</h3>';
+            outputHTML += '<p><b>解説</b></p>';
+            outputHTML += '<p>ア：ゲーム体験時間は３分で固定のため、開始時刻に３足した数字が終了時刻となる。</p>';
+            outputHTML += '<p>イ・ウ：待ち時間は前任者の終了時刻ー本人の到着時刻によって求めることができる。</p>';
+            outputHTML += '<p>よって、以下の計算に基づき、解答を求める事ができる。</p>';
+
+            outputHTML += '<ul>';
+            outputHTML += '<li><strong>ア (3人目の終了時刻):</strong> 開始時刻 6分 + 体験時間 3分 = <span class="answer">9</span>分</li>';
+            outputHTML += '<li><strong>イ (5人目の待ち時間):</strong> 開始時刻 13分 - 到着時刻 11分 = <span class="answer">2</span>分</li>';
+            outputHTML += '<li><strong>ウ (6人目の待ち時間):</strong> 開始時刻 16分 - 到着時刻 12分 = <span class="answer">4</span>分</li>';
+            outputHTML += '</ul>';
+
+            simulationOutputQ1.innerHTML = outputHTML;
+        });
+
+        /**
+         * 問2のシミュレーションを実行し、結果をHTMLに表示する関数
+         */
+        function runSimulationQ2() {
+            // 問2の擬似コードに合わせて、1-indexedの配列を模倣するため先頭にnullを追加
+            const taiken_val = 3; // (01) taiken = 3
+            // (02) Touchaku = [0, 3, 4, 10, 11, 12]
+            const Touchaku = [null, 0, 3, 4, 10, 11, 12];
+            // (03) kyakusu = 要素数(Touchaku) -> JSではlength-1で実際の要素数
+            const kyakusu = Touchaku.length - 1;
+
+            // (04) Kaishi = [0, 0, 0, 0, 0, 0]
+            const Kaishi = Array(kyakusu + 1).fill(0); // 1-indexedにするためサイズを1つ大きくする
+            // (05) Shuryou = [0, 0, 0, 0, 0, 0]
+            const Shuryou = Array(kyakusu + 1).fill(0); // 1-indexedにするためサイズを1つ大きくする
+
+            // (06) Shuryou[1] = taiken
+            // 1人目の到着時刻0、開始時刻0、体験時間taiken_valなので、終了時刻はtaiken_val
+            Shuryou[1] = taiken_val;
+
+            let outputHTML = '<h3>問2</h3>';
+            outputHTML += '<p><b>解説</b></p>';
+            outputHTML += '<p>(03)変数kyakusuには配列Touchakuの要素数6が代入される。</p>';
+            outputHTML += '<p>(07)ループ変数iは2から6まで5回ループするため、(08)～(10)の処理が5回実行される。</p>';
+            outputHTML += '<p>(08)配列Kaishiに前任者の終了時間or本人の到着時刻のうち大きい方を代入する。</p>';
+            outputHTML += '<p>(09)配列Shuryouに本人の開始時刻＋体験時間を代入する。</p>';
+            outputHTML += '<p>(10)i人目の待ち時間を表示。待ち時間は本人の開始時間 - 前任者の到着時間により計算。</p>';
+            outputHTML += '<p><b>シミュレーション結果</b></p>';
+            outputHTML += '<p>初期状態: </p>';
+            outputHTML += '<pre>Touchaku: ' + JSON.stringify(Touchaku.slice(1)) + '\n'; // nullを除いて表示
+            outputHTML += 'Kaishi:   ' + JSON.stringify(Kaishi.slice(1)) + '\n';
+            outputHTML += 'Shuryou:  ' + JSON.stringify(Shuryou.slice(1)) + '</pre>';
+
+            // (07) iを2からkyakusuまで1つずつ増やしながら繰り返す
+            for (let i = 2; i <= kyakusu; i++) {
+                const prevShuryou = Shuryou[i - 1]; // 前任者の終了時刻
+                const currentTouchaku = Touchaku[i]; // 本人の到着時刻
+
+                // (08) Kaishi[i] = 最大値(カ,キ)
+                // カ: Shuryou[i-1] (前任者の終了時刻)
+                // キ: Touchaku[i] (自分の到着時刻)
+                Kaishi[i] = Math.max(prevShuryou, currentTouchaku);
+
+                // (09) Shuryou[i] = Kaishi[i] + taiken
+                Shuryou[i] = Kaishi[i] + taiken_val;
+
+                // 待ち時間は Kaishi[i] - Touchaku[i] で求められる
+                const machijikan = Kaishi[i] - currentTouchaku;
+
+                // 各ループの情報をHTMLに追加
+                outputHTML += '<div class="simulation-step">';
+                outputHTML += '<h4>[' + i + '人目] (' + (i - 1) + '番目のループ)</h4>';
+                outputHTML += '<p>現在の i の値: ' + i + '</p>';
+                outputHTML += '<p>(08) Kaishi[' + i + '] = 最大値(' + prevShuryou + ', ' + currentTouchaku + ') = ' + Kaishi[i] + '</p>';
+                outputHTML += '<p>(09) Shuryou[' + i + '] = ' + Kaishi[i] + ' + ' + taiken_val + ' = ' + Shuryou[i] + '</p>';
+                outputHTML += '<p>(10) ' + i + '人目の待ち時間: ' + machijikan + '分間</p>';
+                outputHTML += '<p>配列の状態 (1-indexed):</p>';
+                outputHTML += '<pre>Touchaku: ' + JSON.stringify(Touchaku.slice(1)) + '\n';
+                outputHTML += 'Kaishi:   ' + JSON.stringify(Kaishi.slice(1)) + '\n';
+                outputHTML += 'Shuryou:  ' + JSON.stringify(Shuryou.slice(1)) + '</pre>';
+                outputHTML += '</div>';
+            }
+            simulationOutputQ2.innerHTML = outputHTML;
+        }
+
+        /**
+         * 問3のシミュレーションを実行し、結果をHTMLに表示する関数
+         */
+        function runSimulationQ3() {
+            // (01) Touchaku = [0,3,4,10,11,12]
+            const initialTouchaku = [null, 0, 3, 4, 10, 11, 12];
+            // (02) kyakusu = 要素数(Touchaku)
+            const kyakusu = initialTouchaku.length - 1;
+
+            let outputHTML = '<h3>問3</h3>';
+            outputHTML += '<p><b>解説</b></p>';
+            outputHTML += '<p>(03)ゲーム体験時間を1分から15分まで増加させた時の、各最長待ち時間を計算。</p>';
+            outputHTML += '<p>(10)変数saichouを0分で初期化。暫定的な最大値を0分とする。</p>';
+            outputHTML += '<p>(12)現在のsaichouと待ち時間（本人の開始時刻 - 到着時刻）を比較し、大きい方を新たなsaichouとして設定。</p>';
+            outputHTML += '<p>(13)saichouが10分以下の時のみ、体験時間と最長待ち時間を表示</p>';
+            outputHTML += '<p><b>シミュレーション結果</b></p>';
+
+            // (03) taikenを1から15まで1ずつ増やしながら繰り返す
+            for (let taiken_val = 1; taiken_val <= 15; taiken_val++) {
+                outputHTML += '<div class="simulation-step">'; // 各体験時間ごとのセクション
+                outputHTML += '<h4>体験時間: ' + taiken_val + '分間</h4>';
+
+                const Touchaku = [...initialTouchaku]; // 毎回初期値をコピー
+                const Kaishi = Array(kyakusu + 1).fill(0);
+                const Shuryou = Array(kyakusu + 1).fill(0);
+
+                // 1人目の処理（疑似コード06行目相当）
+                // 1人目の到着時刻0、開始時刻0、体験時間taiken_valなので、終了時刻はtaiken_val
+                Shuryou[1] = taiken_val;
+
+                // 2人目以降の Kaishi と Shuryou を計算（疑似コード07-09行目相当）
+                for (let i = 2; i <= kyakusu; i++) {
+                    const prevShuryou = Shuryou[i - 1];
+                    const currentTouchaku = Touchaku[i];
+                    Kaishi[i] = Math.max(prevShuryou, currentTouchaku);
+                    Shuryou[i] = Kaishi[i] + taiken_val;
+                }
+
+                outputHTML += '<p>計算後の配列状態:</p>';
+                outputHTML += '<pre>Touchaku: ' + JSON.stringify(Touchaku.slice(1)) + '\n';
+                outputHTML += 'Kaishi:   ' + JSON.stringify(Kaishi.slice(1)) + '\n';
+                outputHTML += 'Shuryou:  ' + JSON.stringify(Shuryou.slice(1)) + '</pre>';
+
+                // (10) saichou = 0
+                let saichou = 0;
+                outputHTML += '<p>最長待ち時間 (saichou) の計算過程:</p>';
+                outputHTML += '<ul class="saichou-trace">';
+
+                // (11) iを1からkyakusuまで1つずつ増やしながら繰り返す:
+                for (let i = 1; i <= kyakusu; i++) {
+                    // 待ち時間は Kaishi[i] - Touchaku[i]
+                    const machijikan = Kaishi[i] - Touchaku[i];
+                    const old_saichou = saichou; // 更新前のsaichouを記録
+
+                    // (12) saichou = 最大値(サ,ケ-コ)
+                    saichou = Math.max(saichou, machijikan);
+
+                    outputHTML += '<li>' + i + '人目: ';
+                    outputHTML += '待ち時間 = Kaishi[' + i + '] (' + Kaishi[i] + ') - Touchaku[' + i + '] (' + Touchaku[i] + ') = ' + machijikan + '分。 ';
+                    outputHTML += 'saichou = 最大値(' + old_saichou + ', ' + machijikan + ') &rarr; <strong class="answer">' + saichou + '</strong></li>';
+                }
+                outputHTML += '</ul>';
+
+                // (13) もしㇱならば: (ここでは「saichou < 10」を判定条件とする)
+                const conditionMet = (saichou < 10);
+                outputHTML += '<p>条件「<span class="answer">saichou < 10</span>」の判定: ' + (conditionMet ? '<span class="answer">満たす</span>' : '<span class="answer">満たさない</span>') + '</p>';
+
+                if (conditionMet) {
+                    // (14) 表示する("体験時間", taiken, "分間:", "最長待ち時間", saichou, "分間")
+                    outputHTML += '<p style="font-weight: bold;">結果: 体験時間: ' + taiken_val + '分間, 最長待ち時間: <span class="answer">' + saichou + '</span>分間</p>';
+                } else {
+                    outputHTML += '<p style="font-weight: bold;">結果: この体験時間では条件を満たさないため表示なし。</p>';
+                }
+                outputHTML += '</div>'; // simulation-stepの閉じタグ
+            }
+            simulationOutputQ3.innerHTML = outputHTML;
+        }
+
+
+        // 「解説」ボタン（問2）がクリックされた時の処理
+        kakikeko_q2_button.addEventListener('click', () => {
+            hideAllSimulationOutputs(); // 他の結果を非表示にする
+            simulationOutputQ2.style.display = 'block'; // 問2の結果を表示
+
+            // 問2の空欄に、擬似コードの式を埋める
+            q2_ka.textContent = 'Shuryou[i-1]';
+            q2_ki.textContent = 'Touchaku[i]';
+            q2_ku.textContent = 'Kaishi[i] + taiken';
+            q2_ke.textContent = 'Kaishi[i]';
+            q2_ko.textContent = 'Touchaku[i]';
+
+            // シミュレーションを実行
+            runSimulationQ2();
+        });
+
+        // 「解説」ボタン（問3）がクリックされた時の処理
+        kakikeko_q3_button.addEventListener('click', () => {
+            hideAllSimulationOutputs(); // 他の結果を非表示にする
+            simulationOutputQ3.style.display = 'block'; // 問3の結果を表示
+
+            // 問3の空欄に、擬似コードの式を埋める
+            q3_ka.textContent = 'Shuryou[i-1]';
+            q3_ki.textContent = 'Touchaku[i]';
+            q3_ku.textContent = 'Kaishi[i] + taiken';
+            // 問3の(12) サ, ケ-コ に対応する要素に値を設定
+            q3_sa.textContent = 'saichou';
+            q3_ke.textContent = 'Kaishi[i]';
+            q3_ko.textContent = 'Touchaku[i]';
+            // 問3の(13) シ に対応する要素に値を設定
+            q3_si.textContent = 'saichou < 10';
+
+            // シミュレーションを実行
+            runSimulationQ3();
+        });
+    </script>
+
+</body>
+
+</html>
